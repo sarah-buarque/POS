@@ -19,4 +19,8 @@ def create_app():
     # registrar blueprints
     app.register_blueprint(messages_bp, url_prefix="/messages")
 
+    @app.route("/", methods=["GET"])
+    def home():
+        return {"status": "ok", "message": "API POS funcionando"}
+
     return app
