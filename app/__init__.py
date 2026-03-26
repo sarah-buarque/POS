@@ -20,10 +20,23 @@ def create_app():
 
     @app.errorhandler(ValidationError)
     def handle_validation_error(err):
-        return {"errors": err.messages}, 400
+        return {
+            "success": False,
+            "errors": err.messages
+        }, 400
 
     @app.errorhandler(NotFound)
     def handle_not_found(err):
-        return {"erro": "Recurso não encontrado"}, 404
+        return {
+            "success": False,
+            "message": "Recurso não encontrado"
+        }, 404
+
+    @app.errorhandler(404)
+    def handle_404_error(err):
+        return {
+            "success": False,
+            "message": "Rota não encontrada"
+        }, 404
 
     return app

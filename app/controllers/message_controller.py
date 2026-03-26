@@ -1,6 +1,7 @@
 from app.extensions import db
 from app.models.message import Message
 from app.schemas.message_schema import MessageSchema
+from app.utils.response import success_response
 
 message_schema = MessageSchema()
 messages_schema = MessageSchema(many=True)
@@ -8,10 +9,7 @@ messages_schema = MessageSchema(many=True)
 
 def listar_mensagens():
     mensagens = Message.query.all()
-
-    return {
-        "mensagens": messages_schema.dump(mensagens)
-    }
+    return success_response(messages_schema.dump(mensagens))
 
 
 def criar_mensagem(data):
@@ -22,7 +20,7 @@ def criar_mensagem(data):
     db.session.add(nova_mensagem)
     db.session.commit()
 
-    return message_schema.dump(nova_mensagem), 201
+    return success_response(message_schema.dump(nova_mensagem), 201)
 
 
 def atualizar_mensagem(id, data):
@@ -35,7 +33,7 @@ def atualizar_mensagem(id, data):
 
     db.session.commit()
 
-    return message_schema.dump(mensagem), 200
+    return success_response(message_schema.dump(mensagem))
 
 
 def deletar_mensagem(id):
@@ -44,4 +42,4 @@ def deletar_mensagem(id):
     db.session.delete(mensagem)
     db.session.commit()
 
-    return {"mensagem": "Removida com sucesso"}, 200
+    return "", 204

@@ -10,7 +10,8 @@ messages_bp = Blueprint("messages", __name__)
 
 @messages_bp.route("/", methods=["GET"])
 def get_messages():
-    return jsonify(listar_mensagens())
+    response, status = listar_mensagens()
+    return jsonify(response), status
 
 
 @messages_bp.route("/", methods=["POST"])
